@@ -27,7 +27,7 @@
             <div class="card shadow-sm p-4 rounded mb-4">
                 <h5>Add a Comment</h5>
                 @auth
-                    <form action="{{ route('comment.store') }}" method="POST" class="mt-3">
+                    <form id="comment-form" action="{{ route('comment.store') }}" method="POST" class="mt-3">
                         @csrf
                         <input type="hidden" name="post_id" value="{{ $post->id }}">
                         <div class="mb-3">
@@ -93,3 +93,34 @@
     </div>
 </div>
 @endsection
+@push('scripts')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#comment-form').validate({
+            rules: {
+                body: {
+                    required: true,
+                    minlength: 3
+                }
+            },
+            messages: {
+                body: {
+                    required: "Please write a comment.",
+                    minlength: "Comment must be at least 3 characters."
+                }
+            },
+            errorElement: 'div',
+            errorClass: 'text-danger small mt-1',
+            highlight: function (element) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element) {
+                $(element).removeClass('is-invalid');
+            }
+        });
+    });
+</script>
+@endpush
