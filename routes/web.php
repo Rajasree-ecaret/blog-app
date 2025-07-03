@@ -20,8 +20,8 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('post', PostController::class)->middleware(('auth'));
-Route::get('/my-posts', [PostController::class, 'myPosts'])->name('post.my-posts');
-// Route::post('/posts/{post}/comments', [CommentController::class, 'store'])->name('comments.store');
+Route::get('/my-posts', [PostController::class, 'myPosts'])->name('post.my-posts')->middleware(('auth'));
+
 
 Route::resource('comment', CommentController::class)->middleware('auth');
 
