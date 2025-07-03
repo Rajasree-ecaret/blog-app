@@ -54,9 +54,9 @@
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <div class="flex-grow-1">
                                     @if(auth()->check() && auth()->id() === $comment->user_id)
-                                        <span class="fw-bold text-success">{{ $comment->user->name }}- you</span>:
+                                        {{-- <span class="fw-bold text-success">{{ $comment->user->name }}- you</span>: --}}
                                     @else
-                                        <span class="fw-bold">{{ $comment->user->name }}</span>:
+                                        {{-- <span class="fw-bold">{{ $comment->user->name }}</span>: --}}
                                     @endif
                                     <br>
                                     <span class="text-truncate d-inline-block" style="max-width: 300px;">

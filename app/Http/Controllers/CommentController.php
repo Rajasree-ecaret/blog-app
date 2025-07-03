@@ -7,6 +7,8 @@ use App\Http\Requests\UpdateCommentRequest;
 use App\Models\Post;
 use App\Repositories\CommentRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\CommentPostedNotification;
+use Illuminate\Support\Facades\Log;
 
 class CommentController extends Controller
 {
@@ -45,8 +47,15 @@ class CommentController extends Controller
             'body' => $request->body,
         ];
 
-        $this->commentRepository->store($data);
+        // Save comment
+    $comment = $this->commentRepository->store($data);
+    // Get the post with user
+    $post = Post::with('user')->findOrFail($request->post_id);
 
+    if ($post->user_id !== Auth::id()) {
+        // Log::info($post->user_id);
+        $post->user->notify(new CommentPostedNotification($comment));
+    }
         return redirect()->route('post.show', $request->post_id)->with('success', 'Comment added!');
     }
 
